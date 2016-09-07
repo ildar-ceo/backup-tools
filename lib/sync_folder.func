@@ -6,6 +6,7 @@ CURRENT_SRC_FOLDER=""
 CURRENT_DEST_FOLDER=""
 CURRENT_SCHEME=""
 
+
 sync_sheme_set () {
 	CURRENT_SCHEME=""
     if [ -z "$1" ]; then
@@ -16,7 +17,7 @@ sync_sheme_set () {
 }
 
 sync_folder () {
-	echo "" > /root/dump/exclude
+	echo "" > ${EXCLUDE_LIST}
 	CURRENT_FOLDER=""
 	if [ -z "$1" ]; then
 		return 0
