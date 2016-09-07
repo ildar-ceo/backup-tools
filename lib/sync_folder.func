@@ -1,0 +1,53 @@
+######################################################################################
+#                                      Backup
+######################################################################################
+
+CURRENT_SRC_FOLDER=""
+CURRENT_DEST_FOLDER=""
+CURRENT_SCHEME=""
+
+sync_sheme_set () {
+	CURRENT_SCHEME=""
+    if [ -z "$1" ]; then
+		return 0
+    fi
+	CURRENT_SCHEME=$1
+	return 1
+}
+
+sync_folder () {
+	echo "" > /root/dump/exclude
+	CURRENT_FOLDER=""
+	if [ -z "$1" ]; then
+		return 0
+	fi
+	
+	if [ -z "$2" ]; then
+		return 0
+	fi
+	
+	CURRENT_SRC_FOLDER=$1
+	CURRENT_DEST_FOLDER=$2
+	
+	echo "">>${DUMP_LOG}
+	echo "[`date`] Start dump folder $CURRENT_SRC_FOLDER to $CURRENT_DEST_FOLDER ">>${DUMP_LOG}
+	return 1
+}
+
+sync_folder_exclude () {
+	if [ -z "$CURRENT_SCHEME" ]; then
+		return 0
+	fi
+	sync_folder_exclude_${CURRENT_SCHEME} $@
+	ch=$?
+	return $ch
+}
+
+sync_folder_start () {
+	if [ -z "$CURRENT_SCHEME" ]; then
+		return 0
+	fi
+	sync_folder_start_${CURRENT_SCHEME} $@
+	ch=$?
+	return $ch
+}
