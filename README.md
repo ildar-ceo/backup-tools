@@ -52,3 +52,11 @@ push_folder_start
 * sync_folder_start - запускает сихронизацию
 * push_folder_start - заливает в хранилище данные, без удаления удаленных файлов
 * dump_mysql <database_name> - делает бэкап базы данных mysql 
+* dump_mongo <database_name> - делает бэкап базы данных mongodb 
+
+Если нужно удалять устаревшие файлы из бэкапов, то можно это сделать коммандой:
+```bash
+find /backup/mysql -type f -mtime +30 -exec rm -f {} \;
+find /backup/mongo -type f -mtime +30 -exec rm -f {} \;
+```
+Данная комманда удаляет файлы, старше 30 дней.
