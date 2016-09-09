@@ -8,3 +8,6 @@ AMAZON_S3_SECRET_ACCESS_KEY=""
 
 EXCLUDE_LIST="/root/backup.exclude.list"
 BACKUP_LOG="/root/backup.log"
+
+BACKUP_DIR="/backup"
+MYSQL_DUMP_DIR="$BACKUP_DIR/mysql"

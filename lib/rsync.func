@@ -1,0 +1,26 @@
+######################################################################################
+#                                    RSync Backup
+######################################################################################
+
+
+sync_folder_exclude_rsync () {
+	echo "$1/*" >> ${EXCLUDE_LIST}
+	echo "exclude: $1 ">>${BACKUP_LOG}
+	return 1
+}
+
+sync_folder_start_rsync () {
+	if [ -z "$CURRENT_SRC_FOLDER" ]; then
+		return 0
+	fi
+
+	if [ -z "$CURRENT_DEST_FOLDER" ]; then
+		return 0
+	fi
+	
+	rsync -azh --progress --delete-after --force $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER
+	
+	echo "[`date`] End dump folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	return 1
+}
+

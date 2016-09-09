@@ -1,0 +1,89 @@
+######################################################################################
+#                                       MYSQL
+######################################################################################
+
+dump_mysql_enable_keys () {
+	if [ -z "$1" ]; then
+		return 0
+	else
+		echo "enable keys $1"
+		FILE="$1"
+		cat $FILE | sed -e 's/\/\*!40000 ALTER TABLE `.*` DISABLE KEYS \*\/;//g' | sed -e 's/\/\*!40000 ALTER TABLE `.*` ENABLE KEYS \*\/;//g' > ${FILE}.new
+		rm $FILE
+		mv ${FILE}.new ${FILE}
+	fi
+	return 0
+}
+
+dump_mysql_what () {
+	if [ -z "$1" ]; then
+		return 0
+	fi
+	if [ -z "$2" ]; then
+		return 0
+	fi
+		
+	DATE=`date -I`
+	DATABASE=$1
+	WHAT=$2
+	DIR="$MYSQL_DUMP_DIR/$DATABASE"
+	mkdir -p $DIR
+	pushd $DIR > /dev/null
+	name="${DATABASE}.${DATE}.sql"
+
+	echo "Make backup MYSQL ${DATABASE} ${WHAT}" >> $DUMP_LOG
+
+	if [ $WHAT == "table" ]; then
+		name="${DATABASE}.${DATE}.tables.sql"
+		mysqldump --quote-names --quick --add-drop-table --compact --create-options --no-data --routines --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $DATABASE > ./$name 2>>$DUMP_LOG
+	elif [ $WHAT == "data" ]; then
+		name="${DATABASE}.${DATE}.data.sql"
+		mysqldump --quote-names --quick --no-create-info --insert-ignore -c --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $DATABASE > ./$name 2>>$DUMP_LOG
+	else
+		mysqldump --quote-names --quick --add-drop-table --create-options --insert-ignore --routines -c --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $DATABASE > ./$name 2>>$DUMP_LOG
+	fi
+
+	dump_mysql_enable_keys ./$name
+	zip -9 ./$name.zip ./$name
+	rm -fv ./$name
+
+	popd > /dev/null
+	return 1
+}
+
+
+# Функция создания дампа БД (полностью, только данные, только структура)
+dump_mysql () {
+	if [ -z "$1" ]; then
+		return 0
+	fi
+
+	dump_mysql_what $1 full
+	dump_mysql_what $1 table
+	dump_mysql_what $1 data
+
+	return 1
+}
+
+
+# Очищает mysql бэкапы старше N дней
+dump_mysql_clear(){
+	if [ -z "$1" ]; then
+		return 0
+	fi
+	
+	if [ -z "$2" ]; then
+		return 0
+	fi
+	
+	DATABASE=$1
+	DAYS=$2
+	DIR="$MYSQL_DUMP_DIR/$DATABASE"
+	
+	if [ -d $DIR ]; then
+		find $DIR -type f -mtime +$DAYS -exec rm -f {} \;
+	fi
+	
+	return 1
+}
+
