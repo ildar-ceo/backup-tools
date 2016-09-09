@@ -3,17 +3,24 @@
 . /root/backup_tools/lib/amazon.func
 . /root/backup_tools/lib/rsync.func
 . /root/backup_tools/lib/mysql.func
+. /root/backup_tools/lib/mongo.func
 
 
 BACKUP_DIR="/backup"
 BACKUP_LOG="/root/backup.log"
+BACKUP_DIR_MYSQL="$BACKUP_DIR/mysql"
+BACKUP_DIR_MONGO="$BACKUP_DIR/mongo"
+
 EXCLUDE_LIST="/root/backup.exclude.list"
-MYSQL_DUMP_DIR="$BACKUP_DIR/mysql"
 
 
 MYSQL_HOST=""
 MYSQL_USER=""
 MYSQL_PASSWORD=""
+
+MONGO_HOST=""
+MONGO_USER=""
+MONGO_PASSWORD=""
 
 AMAZON_S3_BUCKET_NAME=""
 AMAZON_S3_ACCESS_KEY_ID=""

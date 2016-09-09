@@ -52,3 +52,12 @@ sync_folder_start () {
 	ch=$?
 	return $ch
 }
+
+push_folder_start () {
+	if [ -z "$CURRENT_SCHEME" ]; then
+		return 0
+	fi
+	push_folder_start_${CURRENT_SCHEME} $@
+	ch=$?
+	return $ch
+}

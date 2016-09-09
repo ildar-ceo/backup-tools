@@ -18,7 +18,11 @@ sync_folder_start_rsync () {
 		return 0
 	fi
 	
-	rsync -azh --progress --delete-after --force $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER
+	CMD="rsync -azh --progress --delete-after --force $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
+	echo $CMD >> ${BACKUP_LOG}
+	echo $CMD
+	
+	eval $CMD
 	
 	echo "[`date`] End dump folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	return 1
