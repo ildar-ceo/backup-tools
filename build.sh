@@ -11,6 +11,6 @@ fakeroot dpkg-deb --build ./deb ./builds/${FILE}.deb
 cd builds
 
 lintian ./${FILE}.deb
-sudo alien --to-rpm --scripts ./${FILE}.deb
+fakeroot alien --to-rpm --scripts ./${FILE}.deb
 
 cd ..
