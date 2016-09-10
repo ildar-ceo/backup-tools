@@ -1,0 +1,9 @@
+Package: backup-tools
+Version: 1.1
+Architecture: all
+Maintainer: Ildar Bikmamatov <vistoyn@gmail.com>
+Depends: bash (>=4.0)
+Section: misc
+Homepage: https://github.com/vistoyn/backup_tools
+Description: Backup tools library
+ Backup tools for mysql, mongodb, lxd, Amazon S3, rsync
