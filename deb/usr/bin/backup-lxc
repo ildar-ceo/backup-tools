@@ -34,7 +34,7 @@ if [ ! -d /var/lib/lxd/containers/$LXC_NAME ]; then
 fi
 
 
-ask_yn_exit "Do you wish backup container ${c_Yellow}'$LXC_NAME'${c_NC}"
+ask_yn_exit "Do you wish export container ${c_Yellow}'$LXC_NAME'${c_NC}"
 
 
 dump_lxc $LXC_NAME

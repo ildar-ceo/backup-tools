@@ -9,3 +9,24 @@
 # (https://github.com/vistoyn/backup_tools/blob/master/LICENSE)               #
 #                                                                             #
 ###############################################################################
+
+. /etc/backup-tools/config
+
+
+DB_NAME="$1"
+
+if [ -z "$DB_NAME" ]; then
+
+	echo "Error: database name doesn't set"
+	echo ""
+	echo "Usage:"
+	echo "  backup-mysql {database-name}"
+	echo ""
+	exit
+
+fi
+
+ask_yn_exit "Do you wish to backup mysql database ${c_Yellow}'$DB_NAME'${c_NC}"
+
+
+dump_mysql $DB_NAME

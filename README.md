@@ -1,6 +1,33 @@
 # Tools for create backups on Centos/Debian/Ubuntu
 
-Support Mysql, MongoDB, LXD, Rsync, Amazon S3
+Support MySql, MongoDB, LXD, Rsync, Amazon S3
+
+**Warning!**
+LXD works correctly only on Ubuntu 16.04 LTS
+
+
+## Create backup user
+
+**Important!**
+Create user and group for backup and runs the script under them!
+If you want to run backups as root then you do so at your own risk!
+```
+groupadd -g 410 -r backup
+useradd -g 410 -u 410 -r -m -s /bin/bash backup
+touch /var/log/backup.log
+chown backup:backup /var/log/backup.log
+```
+
+And allow backup user to backup folder:
+```
+mkdir -p /backup
+chown backup:backup /backup
+```
+
+If you want make LXD backups, allow backup to lxd group:
+```
+usermod -a -G lxd backup
+```
 
 
 ## Install on Centos 7
@@ -13,12 +40,12 @@ yum install s3cmd zip unzip tar gzip
 rpm -Uvh backup-tools-1.1.0-6.noarch.rpm
 ```
 
-**For mysql backups**
+**For MySql backups**
 ```
 yum install mysql
 ```
 
-**For mongo backups**
+**For MongoDB backups**
 ```
 yum install mongodb
 ```
@@ -33,12 +60,12 @@ apt-get install s3cmd zip unzip tar gzip
 dpkg -i backup-tools_1.1.0-5_all.deb
 ```
 
-**For mysql backups**
+**For MySql backups**
 ```
 apt-get install mysql-client
 ```
 
-**For mongo backups**
+**For MongoDB backups**
 ```
 apt-get install mongodb-clients
 ```
@@ -53,8 +80,8 @@ cp /etc/backup-tools/config.example /etc/backup-tools/config
 
 Example `/etc/backup-tools/config`:
 ```
-BACKUP_DIR="/backup"
-LXD_STORAGE_BACKEND="dir"
+BACKUP_DIR="/backup"  # whereis backup
+LXD_STORAGE_BACKEND="dir"  # or zfs
 
 MYSQL_HOST=""
 MYSQL_USER=""
@@ -72,16 +99,23 @@ AMAZON_S3_SECRET_ACCESS_KEY=""
 ```
 
 
-## Backup mysql and upload to Amazon S3
+
+## Backup MySql and upload to Amazon S3
 
 Make script:
 ```bash
-nano /root/backup.daily.sh
+nano /home/backup/backup.daily.sh
 ```
  
 
 ```bash
 #!/bin/bash
+#######################################################################
+# **Important!**                                                      #
+# Create user and group for backup and runs the script under them!    #
+# If you want to run backups as root then you do so at your own risk! #
+#######################################################################
+
 . /etc/backup-tools/config
 
 sync_sheme_set "amazon_s3"
@@ -97,38 +131,75 @@ sync_folder_start
 
 Set script as executable:
 ```bash
-chmod +x /root/backup.daily.sh
+chmod +x /home/backup/backup.daily.sh
+chown backup:backup /home/backup/backup.daily.sh
 ```
 
 
-If you want restor mysql backup, you should use mysql client with next options:
+If you want restore mysql backups, you should use mysql client with next options:
 ```
 SET NAMES utf8;
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
-source dump.sql
+source path-to-dump.sql
 ```
 
 
-## Backup LXC and upload to Amazon S3
+## Backup LXC in tar.gz and upload to Amazon S3
 
 ```bash
 #!/bin/bash
+#######################################################################
+# **Important!**                                                      #
+# Create user and group for backup and runs the script under them!    #
+# If you want to run backups as root then you do so at your own risk! #
+#######################################################################
+
 . /etc/backup-tools/config
 
 sync_sheme_set "amazon_s3"
 
-dump_lxc test
+dump_lxc mycontainer
 
 echo "Upload LXC to Amazon S3"
 sync_folder /backup/lxc /lxc
 push_folder_start
 ```
 
+or from bash command:
+```
+su backup -c "backup-lxc mycontainer"
+```
+
+
+lxc backup may use exclude.list for tar backup. The exclude.list should be located in the folder `/var/lib/lxd/containers/mycontainer/exclude.list`
+
+Example `exclude.list`:
+```
+rootfs/backup/*
+rootfs/var/run/screen/*
+rootfs/var/run/dbus/*
+rootfs/var/lib/mysql/*
+```
+
+
+## Restore LXC from tar.gz backup
+
+
+```bash
+lxc image import ./path-to-backup.tar.gz --alias=mybackup
+lxc stop mycontainer
+lxc delete mycontainer
+lxc init mybackup mycontainer
+lxc config edit < /var/lib/lxd/containers/mycontainer/config
+lxc start mycontainer
+```
+
+
 
 ## Add Script to Cron
 
-Make `crontab -e` and add next text:
+Make `su backup -c "crontab -e"` and add next text:
 ```
 # /etc/crontab: system-wide crontab
 #
@@ -144,9 +215,10 @@ Make `crontab -e` and add next text:
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-#m      h       dom     mon     dow     command
-01      01      *       *       *       /root/backup.daily.sh
+#m            h           dom     mon     dow     command
+{minute}      {hour}      *       *       *       /home/backup/backup.daily.sh
 ```
+Instead {minute} and {hour} type real values.
 
 
 ## Bash functions
@@ -156,14 +228,18 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 * sync_folder {src} {dest} - initialize synchronization
 * sync_folder_start - start synchronization of the folder
 * push_folder_start - upload the folder, without deleting files in the recipient
-* dump_mysql {database_name} - dump mysql database
-* dump_mongo {database_name} - dump mongodb database
-* dump_lxc {container_name} - dump LXC container
+* dump_mysql {database_name} - dump MySql database
+* dump_mongo {database_name} - dump MongoDB database
+* export_lxc {container_name} - export LXC container
+* import_lxc {container_name} {backup} - import LXC container
 
 
 
 ## Shell functions
 
-* $ backup-lxc {container_name} - Make backup of the LXC Container
+* $ backup-lxc {container_name} - Backup LXC container to backup folder
+* $ backup-mysql {database_name} - Backup MySql database to backup folder
+* $ backup-mongo {database_name} - Backup MongoDB database to backup folder
+
 
 
