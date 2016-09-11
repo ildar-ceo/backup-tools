@@ -29,7 +29,7 @@ sync_folder_start_rsync () {
 	
 	CMD="rsync -azh --progress --delete-after --force $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
 	echo $CMD >> ${BACKUP_LOG}
-	#echo $CMD
+	echo $CMD
 	
 	eval $CMD
 	
@@ -51,7 +51,7 @@ push_folder_start_rsync () {
 	
 	CMD="rsync -azh --progress --force $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
 	echo $CMD >> ${BACKUP_LOG}
-	#echo $CMD
+	echo $CMD
 	
 	eval $CMD
 	

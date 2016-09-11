@@ -30,15 +30,15 @@ sync_folder_start_amazon_s3 () {
 	
 	if [ ! -z "$AMAZON_S3_ACCESS_KEY_ID" ] && [ ! -z "$AMAZON_S3_SECRET_ACCESS_KEY" ]; then
 	
-		CMD="s3cmd --acl-private --guess-mime-type --delete-removed --delete-after --no-encrypt --continue-put  \
+		CMD="s3cmd --acl-private --no-guess-mime-type --delete-removed --delete-after --no-encrypt --continue-put  \
 			--access_key=${AMAZON_S3_ACCESS_KEY_ID} --secret_key=${AMAZON_S3_SECRET_ACCESS_KEY} \
-			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive \
+			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive --force \
 			sync ${CURRENT_SRC_FOLDER}/ s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER}/ "
 		
 	else
 	
-		CMD="s3cmd --acl-private --guess-mime-type --delete-removed --delete-after --no-encrypt --continue-put  \
-			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive \
+		CMD="s3cmd --acl-private --no-guess-mime-type --delete-removed --delete-after --no-encrypt --continue-put  \
+			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive --force \
 			sync ${CURRENT_SRC_FOLDER}/ s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER}/ "
 		
 	fi
