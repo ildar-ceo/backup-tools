@@ -10,7 +10,7 @@ Support Mysql, MongoDB, LXD, Rsync, Amazon S3
 cd /src
 wget https://github.com/vistoyn/backup-tools/backup-tools-1.1.0-2.noarch.rpm
 yum install mysql s3cmd mongo
-rpm ivh backup-tools-1.1.0-2.noarch.rpm
+rpm -Uvh backup-tools-1.1.0-2.noarch.rpm
 ```
 
 

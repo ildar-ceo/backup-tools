@@ -1,3 +1,4 @@
+
 BACKUP_DIR="/backup"
 LXD_STORAGE_BACKEND="dir"
 
@@ -12,5 +13,6 @@ MONGO_PASSWORD=""
 AMAZON_S3_BUCKET_NAME=""
 AMAZON_S3_ACCESS_KEY_ID=""
 AMAZON_S3_SECRET_ACCESS_KEY=""
+
 
 . /usr/lib/backup-tools/config

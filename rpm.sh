@@ -1,11 +1,10 @@
 #!/bin/bash
 
-VERSION="1.1.0"
-FILE="backup-tools_${VERSION}_all"
+. ./config
 
 #download rpmrebuild from https://sourceforge.net/projects/rpmrebuild/
 
-rpmrebuild -pe ./builds/backup-tools-*.rpm
-mv -f ~/rpmbuild/RPMS/noarch/backup-tools-*.rpm ./builds
+rpmrebuild -pe ./builds/backup-tools-${VERSION_FAKE}.noarch.rpm
+mv -f ~/rpmbuild/RPMS/noarch/backup-tools-${VERSION_FAKE}.noarch.rpm ./builds/backup-tools-${VERSION_FAKE}.noarch.rpm
 
 cd ..

@@ -1,5 +1,5 @@
 Package: backup-tools
-Version: 1.1.0
+Version: 1.1.0-3
 Architecture: all
 Maintainer: Ildar Bikmamatov <vistoyn@gmail.com>
 Depends: bash (>=4.0)

@@ -1,0 +1,77 @@
+###############################################################################
+#                               Backup Tools                                  #
+#                                                                             #
+# https://github.com/vistoyn/backup_tools                                     #
+# Copyright (c) 2016 Ildar Bikmamatov <vistoyn@gmail.com>                     #
+# Licensed under the MIT License                                              #
+# (https://github.com/vistoyn/backup_tools/blob/master/LICENSE)               #
+#                                                                             #
+###############################################################################
+
+
+. /usr/lib/backup-tools/lib.sh
+. /usr/lib/backup-tools/sync.sh
+. /usr/lib/backup-tools/amazon.sh
+. /usr/lib/backup-tools/mysql.sh
+. /usr/lib/backup-tools/mongo.sh
+. /usr/lib/backup-tools/lxd.sh
+. /usr/lib/backup-tools/rsync.sh
+
+
+if [ -z $BACKUP_DIR ]; then
+	BACKUP_DIR="/backup"
+fi
+
+if [ -z $BACKUP_LOG ]; then
+	BACKUP_LOG="/backup/backup.log"
+fi
+
+if [ -z $BACKUP_DIR_MYSQL ]; then
+	BACKUP_DIR_MYSQL="$BACKUP_DIR/mysql"
+fi
+
+if [ -z $BACKUP_DIR_MYSQL ]; then
+	BACKUP_DIR_MYSQL="$BACKUP_DIR/mongo"
+fi
+
+if [ -z $EXCLUDE_LIST ]; then
+	EXCLUDE_LIST="/tmp/backup.exclude.list"
+fi
+
+
+if [ -z $MYSQL_HOST ]; then
+	MYSQL_HOST=""
+fi
+
+if [ -z $MYSQL_USER ]; then
+	MYSQL_USER=""
+fi
+
+if [ -z $MYSQL_PASSWORD ]; then
+	MYSQL_PASSWORD=""
+fi
+
+if [ -z $MONGO_HOST ]; then
+	MONGO_HOST=""
+fi
+
+if [ -z $MONGO_USER ]; then
+	MONGO_USER=""
+fi
+
+if [ -z $MONGO_PASSWORD ]; then
+	MONGO_PASSWORD=""
+fi
+
+if [ -z $AMAZON_S3_BUCKET_NAME ]; then
+	AMAZON_S3_BUCKET_NAME=""
+fi
+
+if [ -z $AMAZON_S3_ACCESS_KEY_ID ]; then
+	AMAZON_S3_ACCESS_KEY_ID=""
+fi
+
+if [ -z $AMAZON_S3_SECRET_ACCESS_KEY ]; then
+	AMAZON_S3_SECRET_ACCESS_KEY=""
+fi
+
