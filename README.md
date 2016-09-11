@@ -152,18 +152,18 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # Bash functions
 
 
-* sync_sheme_set <type> - set sync sheme. Allow options: amazon_s3, rsync
-* sync_folder <src> <dest> - initialize synchronization
+* sync_sheme_set {type} - set sync sheme. Allow options: amazon_s3, rsync
+* sync_folder {src} {dest} - initialize synchronization
 * sync_folder_start - start synchronization of the folder
 * push_folder_start - upload the folder, without deleting files in the recipient
-* dump_mysql <database_name> - dump mysql database
-* dump_mongo <database_name> - dump mongodb database
-* dump_lxc <container_name> - dump LXC container
+* dump_mysql {database_name} - dump mysql database
+* dump_mongo {database_name} - dump mongodb database
+* dump_lxc {container_name} - dump LXC container
 
 
 
 # Shell functions
 
-* $ backup-lxc <container_name> - Make backup of the LXC Container
+* $ backup-lxc {container_name} - Make backup of the LXC Container
 
 
