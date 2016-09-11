@@ -30,8 +30,12 @@ if [ -z $BACKUP_DIR_MYSQL ]; then
 	BACKUP_DIR_MYSQL="$BACKUP_DIR/mysql"
 fi
 
-if [ -z $BACKUP_DIR_MYSQL ]; then
-	BACKUP_DIR_MYSQL="$BACKUP_DIR/mongo"
+if [ -z $BACKUP_DIR_MONGO ]; then
+	BACKUP_DIR_MONGO="$BACKUP_DIR/mongo"
+fi
+
+if [ -z $BACKUP_DIR_LXC ]; then
+	BACKUP_DIR_LXC="$BACKUP_DIR/lxc"
 fi
 
 if [ -z $EXCLUDE_LIST ]; then

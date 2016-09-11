@@ -1,4 +1,4 @@
-# Tools for create backups
+# Tools for create backups on Centos/Debian/Ubuntu
 
 Support Mysql, MongoDB, LXD, Rsync, Amazon S3
 
@@ -65,9 +65,25 @@ sync_sheme_set "amazon_s3"
 dump_mysql "db1"
 dump_mysql "db2"
 
-echo "Upload to Amazon S3 Mysql Backups"
+echo "Upload Mysql Backups to Amazon S3"
 sync_folder /backup/mysql /mysql
 sync_folder_start
+```
+
+
+## Backup LXC and upload to Amazon S3
+
+```bash
+#!/bin/bash
+. /etc/backup-tools/config
+
+sync_sheme_set "amazon_s3"
+
+dump_lxc test
+
+echo "Upload LXC to Amazon S3"
+sync_folder /backup/lxc /lxc
+push_folder_start
 ```
 
 
@@ -81,6 +97,7 @@ sync_folder_start
 * push_folder_start - upload the folder, without deleting files in the recipient
 * dump_mysql <database_name> - dump mysql database
 * dump_mongo <database_name> - dump mongodb database
+* dump_lxc <container_name> - dump LXC container
 
 
 
