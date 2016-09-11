@@ -11,6 +11,16 @@ LXD works correctly only on Ubuntu 16.04 LTS
 **Important!**
 Create user and group for backup and runs the script under them!
 If you want to run backups as root then you do so at your own risk!
+
+for Ubuntu
+```
+usermod -d /home/backup -s /bin/bash backup
+mkdir -p /home/backup
+chown backup:backup /home/backup
+chmod 700 /home/backup
+```
+
+for Centos
 ```
 groupadd -g 410 -r backup
 useradd -g 410 -u 410 -r -m -s /bin/bash backup
