@@ -9,3 +9,32 @@
 # (https://github.com/vistoyn/backup_tools/blob/master/LICENSE)               #
 #                                                                             #
 ###############################################################################
+
+. /etc/backup-tools/config
+
+
+LXC_NAME="$1"
+
+if [ -z "$LXC_NAME" ]; then
+
+	echo "Error: lxc container name doesn't set"
+	echo ""
+	echo "Usage:"
+	echo "  backup-lxc {container-name}"
+	echo ""
+	exit
+
+fi
+
+
+if [ ! -d /var/lib/lxd/containers/$LXC_NAME ]; then
+	echo "Error: container directory '/var/lib/lxd/containers/$LXC_NAME' not found"
+	echo ""
+	exit
+fi
+
+
+ask_yn_exit "Do you wish backup container ${c_Yellow}'$LXC_NAME'${c_NC}"
+
+
+dump_lxc $LXC_NAME

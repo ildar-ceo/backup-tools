@@ -27,7 +27,7 @@ dump_mongo () {
 	pushd $DIR > /dev/null
 	
 	D=`date "+%Y-%m-%d %H:%M:%S"`
-	echo "[$D] Start make backup Mongodb ${DATABASE}" >> $BACKUP_LOG
+	echo "[$D] Start make Mongodb backup: ${DATABASE}" >> $BACKUP_LOG
 	
 	echo "Dump mongodb $1"
 	mongodump -h $MONGO_HOST -u $MONGO_USER -p $MONGO_PASSWORD \
@@ -39,7 +39,7 @@ dump_mongo () {
 	rmdir ./$DATABASE > /dev/null
 	
 	D=`date "+%Y-%m-%d %H:%M:%S"`
-	echo "[$D] End make backup Mongodb ${DATABASE}" >> $BACKUP_LOG
+	echo "[$D] End make Mongodb backup: ${DATABASE}" >> $BACKUP_LOG
 	
 	popd > /dev/null
 	return 1

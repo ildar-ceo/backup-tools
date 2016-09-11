@@ -41,8 +41,7 @@ dump_mysql_what () {
 	mkdir -p $DIR
 	pushd $DIR > /dev/null
 	
-	D=`date "+%Y-%m-%d %H:%M:%S"`
-	echo "[$D] Start make backup MYSQL ${DATABASE} ${WHAT}" >> $BACKUP_LOG
+	echo "[`date -R`] Start make MYSQL backup: ${DATABASE} ${WHAT}" >> $BACKUP_LOG
 
 	if [ $WHAT == "table" ]; then
 		name="${name}.tables.sql"
@@ -58,9 +57,9 @@ dump_mysql_what () {
 	dump_mysql_enable_keys ./$name > /dev/null
 	zip -9 ./$name.zip ./$name > /dev/null
 	rm -f ./$name 
-
-	D=`date "+%Y-%m-%d %H:%M:%S"`
-	echo "[$D] End make backup MYSQL ${DATABASE} ${WHAT}" >> $BACKUP_LOG
+	
+	
+	echo "[`date -R`] End make MYSQL backup: ${DATABASE} ${WHAT}" >> $BACKUP_LOG
 
 	popd > /dev/null
 	return 1

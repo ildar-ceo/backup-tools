@@ -37,8 +37,8 @@ sync_folder () {
 	CURRENT_SRC_FOLDER=$1
 	CURRENT_DEST_FOLDER=$2
 	
-	echo "">>${BACKUP_LOG}
-	echo "[`date`] Start dump folder $CURRENT_SRC_FOLDER to $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	echo "" >> ${BACKUP_LOG}
+	echo "[`date -R`] Start dump folder $CURRENT_SRC_FOLDER to $CURRENT_DEST_FOLDER " >> ${BACKUP_LOG}
 	return 1
 }
 

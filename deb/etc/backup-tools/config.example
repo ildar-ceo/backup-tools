@@ -1,14 +1,7 @@
 
 . /usr/local/lib/backup-tools/config
 
-
-BACKUP_DIR="/backup"
-BACKUP_LOG="/backup/backup.log"
-BACKUP_DIR_MYSQL="$BACKUP_DIR/mysql"
-BACKUP_DIR_MONGO="$BACKUP_DIR/mongo"
-
-EXCLUDE_LIST="/tmp/backup.exclude.list"
-
+LXD_STORAGE_BACKEND="dir"
 
 MYSQL_HOST=""
 MYSQL_USER=""

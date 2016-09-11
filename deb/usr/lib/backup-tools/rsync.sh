@@ -31,7 +31,7 @@ sync_folder_start_rsync () {
 	
 	eval $CMD
 	
-	echo "[`date`] End dump folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	echo "[`date -R`] End dump folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	return 1
 }
 
@@ -51,7 +51,7 @@ push_folder_start_rsync () {
 	
 	eval $CMD
 	
-	echo "[`date`] End dump folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	echo "[`date -R`] End dump folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	return 1
 }
 
