@@ -13,12 +13,12 @@ yum install s3cmd zip unzip tar gzip
 rpm -Uvh backup-tools-1.1.0-6.noarch.rpm
 ```
 
-# For mysql backups
+**For mysql backups**
 ```
 yum install mysql
 ```
 
-# For mongo backups
+**For mongo backups**
 ```
 yum install mongodb
 ```
@@ -33,12 +33,12 @@ apt-get install s3cmd zip unzip tar gzip
 dpkg -i backup-tools_1.1.0-5_all.deb
 ```
 
-# For mysql backups
+**For mysql backups**
 ```
 apt-get install mysql-client
 ```
 
-# For mongo backups
+**For mongo backups**
 ```
 apt-get install mongodb-clients
 ```
@@ -126,7 +126,7 @@ push_folder_start
 ```
 
 
-## Add Script to cron
+## Add Script to Cron
 
 Make `crontab -e` and add next text:
 ```
@@ -149,7 +149,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
 
 
-# Bash functions
+## Bash functions
 
 
 * sync_sheme_set {type} - set sync sheme. Allow options: amazon_s3, rsync
@@ -162,7 +162,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 
 
-# Shell functions
+## Shell functions
 
 * $ backup-lxc {container_name} - Make backup of the LXC Container
 
