@@ -48,7 +48,7 @@ sync_folder_start_amazon_s3 () {
 	#echo $CMD
 	eval $CMD
 	
-	echo "[`date -R`] End sync folder $CURRENT_SRC_FOLDER ot s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER} ">>${BACKUP_LOG}
+	echo "[`date -R`] End   sync folder $CURRENT_SRC_FOLDER ot s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER} ">>${BACKUP_LOG}
 	return 1
 }
 
@@ -81,6 +81,6 @@ push_folder_start_amazon_s3 () {
 	#echo $CMD
 	eval $CMD
 	
-	echo "[`date -R`] End push folder $CURRENT_SRC_FOLDER ot s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER} ">>${BACKUP_LOG}
+	echo "[`date -R`] End   push folder $CURRENT_SRC_FOLDER ot s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER} ">>${BACKUP_LOG}
 	return 1
 }

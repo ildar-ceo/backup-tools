@@ -23,7 +23,7 @@ if [ -z $BACKUP_DIR ]; then
 fi
 
 if [ -z $BACKUP_LOG ]; then
-	BACKUP_LOG="/backup/backup.log"
+	BACKUP_LOG="/var/log/backup.log"
 fi
 
 if [ -z $BACKUP_DIR_MYSQL ]; then

@@ -59,7 +59,7 @@ dump_mysql_what () {
 	rm -f ./$name 
 	
 	
-	echo "[`date -R`] End make MYSQL backup: ${DATABASE} ${WHAT}" >> $BACKUP_LOG
+	echo "[`date -R`] End   make MYSQL backup: ${DATABASE} ${WHAT}" >> $BACKUP_LOG
 
 	popd > /dev/null
 	return 1

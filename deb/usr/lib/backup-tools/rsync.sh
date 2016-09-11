@@ -25,13 +25,15 @@ sync_folder_start_rsync () {
 	fi
 	
 	echo "Start rsync"
+	echo "[`date -R`] Start rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	
 	CMD="rsync -azh --progress --delete-after --force $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
 	echo $CMD >> ${BACKUP_LOG}
-	echo $CMD
+	#echo $CMD
 	
 	eval $CMD
 	
-	echo "[`date -R`] End dump folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	echo "[`date -R`] End   rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	return 1
 }
 
@@ -45,13 +47,15 @@ push_folder_start_rsync () {
 	fi
 	
 	echo "Start rsync"
+	echo "[`date -R`] Start rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	
 	CMD="rsync -azh --progress --force $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
 	echo $CMD >> ${BACKUP_LOG}
-	echo $CMD
+	#echo $CMD
 	
 	eval $CMD
 	
-	echo "[`date -R`] End dump folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	echo "[`date -R`] End   rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	return 1
 }
 

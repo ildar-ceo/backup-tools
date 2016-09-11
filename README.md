@@ -8,30 +8,50 @@ Support Mysql, MongoDB, LXD, Rsync, Amazon S3
 
 ```bash
 cd /src
-wget https://github.com/vistoyn/backup-tools/backup-tools-1.1.0-2.noarch.rpm
-yum install mysql s3cmd mongo
-rpm -Uvh backup-tools-1.1.0-2.noarch.rpm
+wget https://github.com/vistoyn/backup-tools/backup-tools-1.1.0-6.noarch.rpm
+yum install s3cmd zip unzip tar gzip
+rpm -Uvh backup-tools-1.1.0-6.noarch.rpm
+```
+
+# For mysql backups
+```
+yum install mysql
+```
+
+# For mongo backups
+```
+yum install mongodb
 ```
 
 
-## Install on Debian
+## Install on Debian or Ubuntu
 
 ```bash
 cd /src
-wget https://github.com/vistoyn/backup-tools/backup-tools_1.1.0_all.deb
-apt-get install mysql s3cmd mongo
-dpkg -i backup-tools_1.1.0_all.deb
+wget https://github.com/vistoyn/backup-tools/backup-tools_1.1.0-5_all.deb
+apt-get install s3cmd zip unzip tar gzip
+dpkg -i backup-tools_1.1.0-5_all.deb
+```
+
+# For mysql backups
+```
+apt-get install mysql-client
+```
+
+# For mongo backups
+```
+apt-get install mongodb-clients
 ```
 
 
 ## Settings
 
-Config file is save in folder /etc/backup-tools
+Config file is save in folder `/etc/backup-tools`
 ```
 cp /etc/backup-tools/config.example /etc/backup-tools/config
 ```
 
-Example config:
+Example `/etc/backup-tools/config`:
 ```
 BACKUP_DIR="/backup"
 LXD_STORAGE_BACKEND="dir"
@@ -54,7 +74,11 @@ AMAZON_S3_SECRET_ACCESS_KEY=""
 
 ## Backup mysql and upload to Amazon S3
 
-Make script `nano ~/backup.daily.sh`:
+Make script:
+```bash
+nano /root/backup.daily.sh
+```
+ 
 
 ```bash
 #!/bin/bash
@@ -68,6 +92,21 @@ dump_mysql "db2"
 echo "Upload Mysql Backups to Amazon S3"
 sync_folder /backup/mysql /mysql
 sync_folder_start
+```
+
+
+Set script as executable:
+```bash
+chmod +x /root/backup.daily.sh
+```
+
+
+If you want restor mysql backup, you should use mysql client with next options:
+```
+SET NAMES utf8;
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+source dump.sql
 ```
 
 
@@ -86,6 +125,28 @@ sync_folder /backup/lxc /lxc
 push_folder_start
 ```
 
+
+## Add Script to cron
+
+Make `crontab -e` and add next text:
+```
+# /etc/crontab: system-wide crontab
+#
+#* * * * * command
+#- - - - -
+#| | | | |
+#| | | | ----- day of week (0 - 7) (Sunday =0 or =7)
+#| | | ------- month (1 - 12)
+#| | --------- day (1 - 31)
+#| ----------- hour (0 - 23)
+#------------- minute (0 - 59)
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+#m      h       dom     mon     dow     command
+01      01      *       *       *       /root/backup.daily.sh
+```
 
 
 # Bash functions
