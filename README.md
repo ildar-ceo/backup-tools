@@ -1,62 +1,91 @@
-# Утилиты для создания бэкапов
+# Tools for create backups
+
+Support Mysql, MongoDB, LXD, Rsync, Amazon S3
 
 
-## Установка
+## Install on Centos 7
+
 
 ```bash
-cd /root
-git clone https://github.com/vistoyn/backup_tools
-cp /root/backup_tools/config.example /root/backup_tools/config
+cd /src
+wget https://github.com/vistoyn/backup-tools/backup-tools-1.1.0-2.noarch.rpm
+yum install mysql s3cmd mongo
+rpm ivh backup-tools-1.1.0-2.noarch.rpm
 ```
 
-Измените настройки файла `/root/backup_tools/config`
 
+## Install on Debian
 
-## Бэкап папки в Amazon S3
-
-Создайте простой скрипт `/root/backup.sh`
 ```bash
-. /root/backup_tools/config
-
-sync_sheme_set "amazon_s3"
-
-sync_folder /root /root
-sync_folder_start
-
-sync_folder /etc /etc
-sync_folder_start
+cd /src
+wget https://github.com/vistoyn/backup-tools/backup-tools_1.1.0_all.deb
+apt-get install mysql s3cmd mongo
+dpkg -i backup-tools_1.1.0_all.deb
 ```
 
-Запустите его. Папки `/root` и `/etc` должны быть загружены в Amazon S3.
+
+## Settings
+
+Config file is save in folder /etc/backup-tools
+```
+cp /etc/backup-tools/config.example /etc/backup-tools/config
+```
+
+Example config:
+```
+BACKUP_DIR="/backup"
+LXD_STORAGE_BACKEND="dir"
+
+MYSQL_HOST=""
+MYSQL_USER=""
+MYSQL_PASSWORD=""
+
+MONGO_HOST=""
+MONGO_USER=""
+MONGO_PASSWORD=""
+
+AMAZON_S3_BUCKET_NAME=""
+AMAZON_S3_ACCESS_KEY_ID=""
+AMAZON_S3_SECRET_ACCESS_KEY=""
+
+. /usr/lib/backup-tools/config
+```
 
 
-## Бэкап mysql
+## Backup mysql and upload to Amazon S3
+
+Make script `nano ~/backup.daily.sh`:
 
 ```bash
+#!/bin/bash
+. /etc/backup-tools/config
 
 sync_sheme_set "amazon_s3"
 
 dump_mysql "db1"
 dump_mysql "db2"
-dump_mysql "db3"
 
+echo "Upload to Amazon S3 Mysql Backups"
 sync_folder /backup/mysql /mysql
-push_folder_start
+sync_folder_start
 ```
 
 
-# Описание функций
 
-* sync_sheme_set <type> - устанавливает схему синхронизации папки. Доступны варианты: amazon_s3, rsync
-* sync_folder <src> <dest> - инициализирует синхронизацию
-* sync_folder_start - запускает сихронизацию
-* push_folder_start - заливает в хранилище данные, без удаления удаленных файлов
-* dump_mysql <database_name> - делает бэкап базы данных mysql 
-* dump_mongo <database_name> - делает бэкап базы данных mongodb 
+# Bash functions
 
-Если нужно удалять устаревшие файлы из бэкапов, то можно это сделать коммандой:
-```bash
-find /backup/mysql -type f -mtime +30 -exec rm -f {} \;
-find /backup/mongo -type f -mtime +30 -exec rm -f {} \;
-```
-Данная комманда удаляет файлы, старше 30 дней.
+
+* sync_sheme_set <type> - set sync sheme. Allow options: amazon_s3, rsync
+* sync_folder <src> <dest> - initialize synchronization
+* sync_folder_start - start synchronization of the folder
+* push_folder_start - upload the folder, without deleting files in the recipient
+* dump_mysql <database_name> - dump mysql database
+* dump_mongo <database_name> - dump mongodb database
+
+
+
+# Shell functions
+
+* $ backup-lxc <container_name> - Make backup of the LXC Container
+
+
