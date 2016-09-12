@@ -1,6 +1,6 @@
 # Tools for create backups on Centos/Debian/Ubuntu
 
-Support MySql, MongoDB, LXD, Rsync, Amazon S3
+Support MySQL, MongoDB, LXD, Rsync, Amazon S3
 
 **Warning!**
 LXD works correctly only on Ubuntu 16.04 LTS
@@ -40,12 +40,12 @@ chown backup:backup /backup
 
 ```bash
 cd /src
-wget https://github.com/vistoyn/backup-tools/backup-tools-1.1.0-6.noarch.rpm
+wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools-1.1.0-9.noarch.rpm
 yum install s3cmd zip unzip tar gzip
 rpm -Uvh backup-tools-1.1.0-6.noarch.rpm
 ```
 
-**For MySql backups**
+**For MySQL backups**
 ```
 yum install mysql
 ```
@@ -60,12 +60,12 @@ yum install mongodb
 
 ```bash
 cd /src
-wget https://github.com/vistoyn/backup-tools/backup-tools_1.1.0-5_all.deb
+wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.1.0-8_all.deb
 apt-get install s3cmd zip unzip tar gzip
 dpkg -i backup-tools_1.1.0-5_all.deb
 ```
 
-**For MySql backups**
+**For MySQL backups**
 ```
 apt-get install mysql-client
 ```
@@ -105,7 +105,7 @@ AMAZON_S3_SECRET_ACCESS_KEY=""
 
 
 
-## Backup MySql and upload to Amazon S3
+## Backup MySQL and upload to Amazon S3
 
 Make script:
 ```bash
@@ -128,7 +128,7 @@ sync_sheme_set "amazon_s3"
 dump_mysql "db1"
 dump_mysql "db2"
 
-echo "Upload Mysql Backups to Amazon S3"
+echo "Upload MySQL Backups to Amazon S3"
 sync_folder /backup/mysql /mysql
 sync_folder_start
 ```
@@ -141,7 +141,7 @@ chown backup:backup /home/backup/backup.daily.sh
 ```
 
 
-If you want restore mysql backups, you should use mysql client with next options:
+If you want restore MySQL backups, you should use MySQL client with next options:
 ```
 SET NAMES utf8;
 SET foreign_key_checks = 0;
@@ -231,7 +231,7 @@ Instead {minute} and {hour} type real values.
 * sync_folder {src} {dest} - initialize synchronization
 * sync_folder_start - start synchronization of the folder
 * push_folder_start - upload the folder, without deleting files in the recipient
-* dump_mysql {database_name} - dump MySql database
+* dump_mysql {database_name} - dump MySQL database
 * dump_mongo {database_name} - dump MongoDB database
 * export_lxc {container_name} - export LXC container
 * import_lxc {container_name} {backup} - import LXC container
@@ -241,7 +241,7 @@ Instead {minute} and {hour} type real values.
 ## Shell functions
 
 * $ backup-lxc {container_name} - Backup LXC container to backup folder
-* $ backup-mysql {database_name} - Backup MySql database to backup folder
+* $ backup-mysql {database_name} - Backup MySQL database to backup folder
 * $ backup-mongo {database_name} - Backup MongoDB database to backup folder
 
 
