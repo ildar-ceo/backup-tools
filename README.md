@@ -174,6 +174,7 @@ or from bash command:
 sudo backup-lxc mycontainer
 ```
 
+When container is backuping, automatically generated config in the container folder.
 
 lxc backup may use exclude.list for tar backup. The exclude.list should be located in the folder `/var/lib/lxd/containers/mycontainer/exclude.list`
 
@@ -194,7 +195,7 @@ lxc image import ./path-to-backup.tar.gz --alias=mybackup
 lxc stop mycontainer
 lxc delete mycontainer
 lxc init mybackup mycontainer
-lxc config edit < /var/lib/lxd/containers/mycontainer/config
+lxc config edit mycontainer < /var/lib/lxd/containers/mycontainer/config
 lxc start mycontainer
 ```
 
