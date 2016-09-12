@@ -233,8 +233,7 @@ Instead {minute} and {hour} type real values.
 * push_folder_start - upload the folder, without deleting files in the recipient
 * dump_mysql {database_name} - dump MySQL database
 * dump_mongo {database_name} - dump MongoDB database
-* export_lxc {container_name} - export LXC container
-* import_lxc {container_name} {backup} - import LXC container
+* dump_lxc {container_name} - dump LXC container
 
 
 
