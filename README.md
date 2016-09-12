@@ -171,7 +171,7 @@ push_folder_start
 
 or from bash command:
 ```
-su backup -c "backup-lxc mycontainer"
+sudo backup-lxc mycontainer
 ```
 
 
