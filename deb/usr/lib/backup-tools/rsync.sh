@@ -27,7 +27,7 @@ sync_folder_start_rsync () {
 	echo "Start rsync"
 	echo "[`date -R`] Start rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	
-	CMD="rsync -azh --progress --delete-after --force $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
+	CMD="rsync -azh --progress --delete-after --force --exclude-from='${EXCLUDE_LIST}' $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
 	echo $CMD >> ${BACKUP_LOG}
 	echo $CMD
 	
@@ -49,7 +49,7 @@ push_folder_start_rsync () {
 	echo "Start rsync"
 	echo "[`date -R`] Start rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	
-	CMD="rsync -azh --progress --force $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
+	CMD="rsync -azh --progress --force --exclude-from='${EXCLUDE_LIST}' $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
 	echo $CMD >> ${BACKUP_LOG}
 	echo $CMD
 	

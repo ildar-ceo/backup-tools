@@ -34,11 +34,6 @@ mkdir -p /backup
 chown backup:backup /backup
 ```
 
-If you want make LXD backups, allow backup to lxd group:
-```
-usermod -a -G lxd backup
-```
-
 
 ## Install on Centos 7
 
@@ -157,13 +152,11 @@ source path-to-dump.sql
 
 ## Backup LXC in tar.gz and upload to Amazon S3
 
+**Important!**
+Unfortunately backup LXC doesn't make as "backup" user, you need root access.
+
 ```bash
 #!/bin/bash
-#######################################################################
-# **Important!**                                                      #
-# Create user and group for backup and runs the script under them!    #
-# If you want to run backups as root then you do so at your own risk! #
-#######################################################################
 
 . /etc/backup-tools/config
 
