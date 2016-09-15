@@ -42,7 +42,7 @@ chown backup:backup /backup
 cd /src
 wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools-1.1.0-9.noarch.rpm
 yum install s3cmd zip unzip tar gzip
-rpm -Uvh backup-tools-1.1.0-6.noarch.rpm
+rpm -Uvh backup-tools-1.1.0-9.noarch.rpm
 ```
 
 **For MySQL backups**
@@ -62,7 +62,7 @@ yum install mongodb
 cd /src
 wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.1.0-8_all.deb
 apt-get install s3cmd zip unzip tar gzip
-dpkg -i backup-tools_1.1.0-5_all.deb
+dpkg -i backup-tools_1.1.0-8_all.deb
 ```
 
 **For MySQL backups**
