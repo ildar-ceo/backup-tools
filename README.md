@@ -6,6 +6,12 @@ Support MySQL, MongoDB, LXD, Rsync, Amazon S3
 LXD works correctly only on Ubuntu 16.04 LTS
 
 
+## Downloads
+
+[download rpm](https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools-1.1.0-9.noarch.rpm)
+[download deb](https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.1.0-8_all.deb)
+
+
 ## Create backup user
 
 **Important!**
