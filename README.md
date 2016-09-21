@@ -67,7 +67,7 @@ yum install mongodb
 ```bash
 cd /src
 wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.1.0-8_all.deb
-apt-get install s3cmd zip unzip tar gzip
+apt-get install s3cmd zip unzip tar gzip python-dateutil python-magic python-six
 dpkg -i backup-tools_1.1.0-8_all.deb
 ```
 
