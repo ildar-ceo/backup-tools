@@ -6,27 +6,24 @@ Support MySQL, MongoDB, LXD, Rsync, Amazon S3
 LXD works correctly only on Ubuntu 16.04 LTS
 
 
-## Downloads
-
-[download rpm](https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools-1.1.0-9.noarch.rpm)
-[download deb](https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.1.0-8_all.deb)
-
-
-## Create backup user
-
 **Important!**
 Create user and group for backup and runs the script under them!
 If you want to run backups as root then you do so at your own risk!
 
-for Ubuntu
-```
-usermod -d /home/backup -s /bin/bash backup
-mkdir -p /home/backup
-chown backup:backup /home/backup
-chmod 700 /home/backup
-```
 
-for Centos
+## Downloads
+
+[download rpm](https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools-1.1.0-9.noarch.rpm)
+
+[download deb](https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.1.0-8_all.deb)
+
+
+
+## Install on Centos 7
+
+
+**Create backup user**
+
 ```
 groupadd -g 410 -r backup
 useradd -g 410 -u 410 -r -m -s /bin/bash backup
@@ -40,9 +37,7 @@ mkdir -p /backup
 chown backup:backup /backup
 ```
 
-
-## Install on Centos 7
-
+**Install Package**
 
 ```bash
 cd /src
@@ -62,7 +57,19 @@ yum install mongodb
 ```
 
 
+
 ## Install on Debian or Ubuntu
+
+
+**Create backup user**
+```
+usermod -d /home/backup -s /bin/bash backup
+mkdir -p /home/backup
+chown backup:backup /home/backup
+chmod 700 /home/backup
+```
+
+**Install Package**
 
 ```bash
 cd /src
@@ -149,6 +156,7 @@ chown backup:backup /home/backup/backup.daily.sh
 
 If you want restore MySQL backups, you should use MySQL client with next options:
 ```
+use db;
 SET NAMES utf8;
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
