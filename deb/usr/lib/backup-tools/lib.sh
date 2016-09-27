@@ -41,3 +41,15 @@ ask_yn_exit() {
 		exit
 	fi
 }
+
+get_backup_log_var(){
+	BACKUP_LOG=""
+	
+	if [ $BACKUP_LOG_TYPE == "FILE" ]; then
+		BACKUP_LOG=$BACKUP_LOG_FILE
+	fi
+	
+	if [ $BACKUP_LOG_TYPE == "DIR" ]; then
+		BACKUP_LOG="${BACKUP_LOG_DIR}/${BACKUP_LOG_NAME}-`date -I`.log"
+	fi
+}

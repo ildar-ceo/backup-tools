@@ -14,7 +14,9 @@ dump_mongo () {
 	if [ -z "$1" ]; then
 		return 0
 	fi
-
+	
+	get_backup_log_var
+	
 	DATE=`date -I`
 	DATE2=`date "+%Y-%m"`
 	DATE3=`date "+%d"`
@@ -29,8 +31,18 @@ dump_mongo () {
 	echo "[`date -R`] Start make Mongodb backup: ${DATABASE}" >> $BACKUP_LOG
 	
 	echo "Dump mongodb $1"
-	mongodump -h $MONGO_HOST -u $MONGO_USER -p $MONGO_PASSWORD \
-		--authenticationDatabase admin --db $1 --out ./
+	
+	if [ ! -z "$MONGO_USER" ] && [ ! -z "$MONGO_PASSWORD" ]; then
+	
+		mongodump -h $MONGO_HOST -u $MONGO_USER -p $MONGO_PASSWORD \
+			--authenticationDatabase admin --db $1 --out ./ >> $BACKUP_LOG 2>&1
+	
+	else
+		
+		mongodump -h $MONGO_HOST  \
+			--db $1 --out ./ >> $BACKUP_LOG 2>&1
+		
+	fi
 	
 	echo "Compress to zip"
 	zip -r9 ./$name.zip ./$DATABASE > /dev/null

@@ -24,6 +24,7 @@ dump_lxc () {
 		return 0
 	fi
 	
+	get_backup_log_var
 	
 	echo -e "Backup containter to ${Green}'$LXC_BACKUP/$LXC_SNAPSHOT.tar.gz'${NC} "
 	mkdir -p $LXC_BACKUP
@@ -41,17 +42,17 @@ dump_lxc () {
 	fi
 	
 	echo "[`date -R`] Start backup " > $LXC_BACKUP/$LXC_SNAPSHOT.log
-	echo "[`date -R`] Start backup lxc container $LXC_NAME " >> $BACKUP_LOG
+	echo "[`date -R`] Start backup lxc container $LXC_NAME " >> $BACKUP_LOG 2>&1
 	
 	CMD="$CMD -czvf $LXC_BACKUP/$LXC_SNAPSHOT.tar.gz * >> $LXC_BACKUP/$LXC_SNAPSHOT.log"
 	
 	#echo $CMD
-	eval $CMD
+	eval $CMD >> $BACKUP_LOG 2>&1
 
 	pushd $LXC_BACKUP > /dev/null
 	gzip -f $LXC_SNAPSHOT.log
 	
-	echo "[`date -R`] End backup lxc container $LXC_NAME " >> $BACKUP_LOG
+	echo "[`date -R`] End backup lxc container $LXC_NAME " >> $BACKUP_LOG 2>&1
 	
 	popd > /dev/null
 	

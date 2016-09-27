@@ -10,6 +10,7 @@
 
 
 sync_folder_exclude_rsync () {
+	get_backup_log_var
 	echo "$1/*" >> ${EXCLUDE_LIST}
 	echo "exclude: $1 ">>${BACKUP_LOG}
 	return 1
@@ -24,16 +25,18 @@ sync_folder_start_rsync () {
 		return 0
 	fi
 	
-	echo "Start rsync"
-	echo "[`date -R`] Start rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	get_backup_log_var
+	
+	echo "Start rsync folder $CURRENT_SRC_FOLDER to $CURRENT_DEST_FOLDER"
+	echo "[`date -R`] Start rsync folder $CURRENT_SRC_FOLDER to $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	
 	CMD="rsync -azh --progress --delete-after --force --exclude-from='${EXCLUDE_LIST}' $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
 	echo $CMD >> ${BACKUP_LOG}
 	echo $CMD
 	
-	eval $CMD
+	eval $CMD >> ${BACKUP_LOG} 2>&1
 	
-	echo "[`date -R`] End   rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	echo "[`date -R`] End   rsync folder $CURRENT_SRC_FOLDER to $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	return 1
 }
 
@@ -46,16 +49,18 @@ push_folder_start_rsync () {
 		return 0
 	fi
 	
-	echo "Start rsync"
-	echo "[`date -R`] Start rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	get_backup_log_var
+	
+	echo "Start rsync push folder $CURRENT_SRC_FOLDER to $CURRENT_DEST_FOLDER"
+	echo "[`date -R`] Start rsync push folder $CURRENT_SRC_FOLDER to $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	
 	CMD="rsync -azh --progress --force --exclude-from='${EXCLUDE_LIST}' $CURRENT_SRC_FOLDER  $CURRENT_DEST_FOLDER"
 	echo $CMD >> ${BACKUP_LOG}
 	echo $CMD
 	
-	eval $CMD
+	eval $CMD >> ${BACKUP_LOG} 2>&1
 	
-	echo "[`date -R`] End   rsync folder $CURRENT_SRC_FOLDER ot $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
+	echo "[`date -R`] End   rsync folder $CURRENT_SRC_FOLDER to $CURRENT_DEST_FOLDER ">>${BACKUP_LOG}
 	return 1
 }
 

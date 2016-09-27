@@ -22,8 +22,20 @@ if [ -z $BACKUP_DIR ]; then
 	BACKUP_DIR="/backup"
 fi
 
-if [ -z $BACKUP_LOG ]; then
-	BACKUP_LOG="/var/log/backup.log"
+if [ -z $BACKUP_LOG_NAME ]; then
+	BACKUP_LOG_NAME="backup"
+fi
+
+if [ -z $BACKUP_LOG_TYPE ]; then
+	BACKUP_LOG_TYPE="FILE"
+fi
+
+if [ -z $BACKUP_LOG_FILE ]; then
+	BACKUP_LOG_FILE="/var/log/backup.log"
+fi
+
+if [ -z $BACKUP_LOG_DIR ]; then
+	BACKUP_LOG_DIR="/var/log/backup"
 fi
 
 if [ -z $BACKUP_DIR_MYSQL ]; then
