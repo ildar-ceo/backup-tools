@@ -28,7 +28,9 @@ If you want to run backups as root then you do so at your own risk!
 $ groupadd -g 410 -r backup
 $ useradd -g 410 -u 410 -r -m -s /bin/bash backup
 $ touch /var/log/backup.log
+$ mkdir /var/log/backup
 $ chown backup:backup /var/log/backup.log
+$ chown backup:backup /var/log/backup
 ```
 
 And allow backup user to backup folder:
@@ -67,6 +69,10 @@ $ usermod -d /home/backup -s /bin/bash backup
 $ mkdir -p /home/backup
 $ chown backup:backup /home/backup
 $ chmod 700 /home/backup
+$ touch /var/log/backup.log
+$ mkdir /var/log/backup
+$ chown backup:backup /var/log/backup.log
+$ chown backup:backup /var/log/backup
 ```
 
 **Install Package**
