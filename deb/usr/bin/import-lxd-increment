@@ -13,28 +13,39 @@
 . /etc/backup-tools/config
 
 
-LXC_NAME="$1"
+LXD_NAME="$1"
+LXD_SNAPSHOT="$2"
 
-if [ -z "$LXC_NAME" ]; then
+if [ -z "$LXD_NAME" ]; then
 
-	echo "Error: lxc container name doesn't set"
+	echo "Error: lxd container name doesn't set"
 	echo ""
 	echo "Usage:"
-	echo "  backup-lxc {container-name}"
+	echo "  backup-lxd {container-name} {lxd-snapshot}"
 	echo ""
 	exit
 
 fi
 
+if [ -z "$LXD_SNAPSHOT" ]; then
 
-if [ ! -d /var/lib/lxd/containers/$LXC_NAME ]; then
-	echo "Error: container directory '/var/lib/lxd/containers/$LXC_NAME' not found"
+	echo "Error: lxd master snapshot doesn't set"
+	echo ""
+	echo "Usage:"
+	echo "  backup-lxd {container-name} {lxd-snapshot}"
+	echo ""
+	exit
+
+fi
+
+if [ ! -d /var/lib/lxd/containers/$LXD_NAME ]; then
+	echo "Error: container directory '/var/lib/lxd/containers/$LXD_NAME' not found"
 	echo ""
 	exit
 fi
 
+echo -e "${c_Red}Attention! The existing data of the LXD container $LXD_NAME will be lost by snaphost data! ${c_NC}"
+ask_yn_exit "Do you wish to import increment snapshot of the LXD container ${c_Yellow}'$LXD_NAME'${c_NC}"
 
-ask_yn_exit "Do you wish export container ${c_Yellow}'$LXC_NAME'${c_NC}"
 
-
-dump_lxc $LXC_NAME
+import_lxd_increment $LXD_NAME $LXD_SNAPSHOT

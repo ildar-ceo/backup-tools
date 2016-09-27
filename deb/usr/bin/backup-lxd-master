@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ###############################################################################
 #                               Backup Tools                                  #
 #                                                                             #
@@ -8,49 +10,31 @@
 #                                                                             #
 ###############################################################################
 
-
-c_Red='\e[1;31m'          # Red
-c_Green='\e[1;32m'        # Green
-c_Yellow='\e[1;33m'       # Yellow
-c_NC='\e[0m'              # No Color (нет цвета)
+. /etc/backup-tools/config
 
 
-ask_yn() {
-	if [ -z "$1" ]; then
-		return 0
-	fi
-	
-	echo -e -n "$@ [y/N]?"
-	read -p " " yn
+LXD_NAME="$1"
 
-	if [ -z $yn ]; then
-		return 0
-	fi
+if [ -z "$LXD_NAME" ]; then
 
-	if [ $yn != "y" ] && [ $yn != "Y" ]; then
-		return 0
-	fi
+	echo "Error: lxd container name doesn't set"
+	echo ""
+	echo "Usage:"
+	echo "  backup-lxd {container-name}"
+	echo ""
+	exit
 
-	return 1
-}
+fi
 
 
-ask_yn_exit() {
-	ask_yn $@
-	
-	if [ $? != 1 ]; then
-		exit
-	fi
-}
+if [ ! -d /var/lib/lxd/containers/$LXD_NAME ]; then
+	echo "Error: container directory '/var/lib/lxd/containers/$LXD_NAME' not found"
+	echo ""
+	exit
+fi
 
-get_backup_log_var(){
-	BACKUP_LOG=""
-	
-	if [ $BACKUP_LOG_TYPE == "FILE" ]; then
-		BACKUP_LOG=$BACKUP_LOG_FILE
-	fi
-	
-	if [ $BACKUP_LOG_TYPE == "DIR" ]; then
-		BACKUP_LOG="${BACKUP_LOG_DIR}/${BACKUP_LOG_NAME}-`date -I`.log"
-	fi
-}
+
+ask_yn_exit "Do you wish to make master snapshot of the LXD container ${c_Yellow}'$LXD_NAME'${c_NC}"
+
+
+dump_lxd_master $LXD_NAME

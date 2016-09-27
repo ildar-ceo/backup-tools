@@ -1,0 +1,51 @@
+#!/bin/bash
+
+###############################################################################
+#                               Backup Tools                                  #
+#                                                                             #
+# https://github.com/vistoyn/backup-tools                                     #
+# Copyright (c) 2016 Ildar Bikmamatov <vistoyn@gmail.com>                     #
+# Licensed under the MIT License                                              #
+# (https://github.com/vistoyn/backup-tools/blob/master/LICENSE)               #
+#                                                                             #
+###############################################################################
+
+. /etc/backup-tools/config
+
+
+LXD_NAME="$1"
+LXD_SNAPSHOT="$2"
+
+if [ -z "$LXD_NAME" ]; then
+
+	echo "Error: lxd container name doesn't set"
+	echo ""
+	echo "Usage:"
+	echo "  backup-lxd {container-name} {lxd-snapshot}"
+	echo ""
+	exit
+
+fi
+
+if [ -z "$LXD_SNAPSHOT" ]; then
+
+	echo "Error: lxd master snapshot doesn't set"
+	echo ""
+	echo "Usage:"
+	echo "  backup-lxd {container-name} {lxd-snapshot}"
+	echo ""
+	exit
+
+fi
+
+if [ ! -d /var/lib/lxd/containers/$LXD_NAME ]; then
+	echo "Error: container directory '/var/lib/lxd/containers/$LXD_NAME' not found"
+	echo ""
+	exit
+fi
+
+echo -e "${c_Red}Attention! The existing data of the LXD container $LXD_NAME will be lost by snaphost data! ${c_NC}"
+ask_yn_exit "Do you wish to import master snapshot of the LXD container ${c_Yellow}'$LXD_NAME'${c_NC}"
+
+
+import_lxd_master $LXD_NAME $LXD_SNAPSHOT

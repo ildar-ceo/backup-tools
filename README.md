@@ -25,35 +25,35 @@ If you want to run backups as root then you do so at your own risk!
 **Create backup user**
 
 ```
-groupadd -g 410 -r backup
-useradd -g 410 -u 410 -r -m -s /bin/bash backup
-touch /var/log/backup.log
-chown backup:backup /var/log/backup.log
+$ groupadd -g 410 -r backup
+$ useradd -g 410 -u 410 -r -m -s /bin/bash backup
+$ touch /var/log/backup.log
+$ chown backup:backup /var/log/backup.log
 ```
 
 And allow backup user to backup folder:
 ```
-mkdir -p /backup
-chown backup:backup /backup
+$ mkdir -p /backup
+$ chown backup:backup /backup
 ```
 
 **Install Package**
 
 ```bash
-cd /src
-wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools-1.1.0-9.noarch.rpm
-yum install s3cmd zip unzip tar gzip
-rpm -Uvh backup-tools-1.1.0-9.noarch.rpm
+$ cd /src
+$ wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools-1.1.0-9.noarch.rpm
+$ yum install s3cmd zip unzip tar gzip
+$ rpm -Uvh backup-tools-1.1.0-9.noarch.rpm
 ```
 
 **For MySQL backups**
 ```
-yum install mysql
+$ yum install mysql
 ```
 
 **For MongoDB backups**
 ```
-yum install mongodb
+$ yum install mongodb
 ```
 
 
@@ -63,29 +63,29 @@ yum install mongodb
 
 **Create backup user**
 ```
-usermod -d /home/backup -s /bin/bash backup
-mkdir -p /home/backup
-chown backup:backup /home/backup
-chmod 700 /home/backup
+$ usermod -d /home/backup -s /bin/bash backup
+$ mkdir -p /home/backup
+$ chown backup:backup /home/backup
+$ chmod 700 /home/backup
 ```
 
 **Install Package**
 
 ```bash
-cd /src
-wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.1.0-8_all.deb
-apt-get install s3cmd zip unzip tar gzip python-dateutil python-magic python-six
-dpkg -i backup-tools_1.1.0-8_all.deb
+$ cd /src
+$ wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.1.0-8_all.deb
+$ apt-get install s3cmd zip unzip tar gzip python-dateutil python-magic python-six
+$ dpkg -i backup-tools_1.1.0-8_all.deb
 ```
 
 **For MySQL backups**
 ```
-apt-get install mysql-client
+$ apt-get install mysql-client
 ```
 
 **For MongoDB backups**
 ```
-apt-get install mongodb-clients
+$ apt-get install mongodb-clients
 ```
 
 
@@ -93,13 +93,13 @@ apt-get install mongodb-clients
 
 Config file is save in folder `/etc/backup-tools`
 ```
-cp /etc/backup-tools/config.example /etc/backup-tools/config
+$ cp /etc/backup-tools/config.example /etc/backup-tools/config
 ```
 
 Example `/etc/backup-tools/config`:
 ```
 BACKUP_DIR="/backup"  # whereis backup
-LXD_STORAGE_BACKEND="dir"  # or zfs
+BACKUP_LOG_TYPE="DIR"  # log type FILE or DIR
 
 MYSQL_HOST=""
 MYSQL_USER=""
@@ -122,7 +122,7 @@ AMAZON_S3_SECRET_ACCESS_KEY=""
 
 Make script:
 ```bash
-nano /home/backup/backup.daily.sh
+$ nano /home/backup/backup.daily.sh
 ```
  
 
@@ -149,8 +149,8 @@ sync_folder_start
 
 Set script as executable:
 ```bash
-chmod +x /home/backup/backup.daily.sh
-chown backup:backup /home/backup/backup.daily.sh
+$ chmod +x /home/backup/backup.daily.sh
+$ chown backup:backup /home/backup/backup.daily.sh
 ```
 
 
@@ -164,10 +164,10 @@ source path-to-dump.sql
 ```
 
 
-## Backup LXC in tar.gz and upload to Amazon S3
+## Backup LXD in tar.gz and upload to Amazon S3
 
 **Important!**
-Unfortunately backup LXC doesn't make as "backup" user, you need root access.
+Unfortunately backup LXD doesn't make as "backup" user, you need root access.
 
 ```bash
 #!/bin/bash
@@ -176,21 +176,21 @@ Unfortunately backup LXC doesn't make as "backup" user, you need root access.
 
 sync_sheme_set "amazon_s3"
 
-dump_lxc mycontainer
+dump_lxd mycontainer
 
-echo "Upload LXC to Amazon S3"
-sync_folder /backup/lxc /lxc
+echo "Upload LXD to Amazon S3"
+sync_folder /backup/lxd /lxd
 push_folder_start
 ```
 
 or from bash command:
 ```
-sudo backup-lxc mycontainer
+$ sudo backup-lxd mycontainer
 ```
 
 When container is backuping, automatically generated config in the container folder.
 
-lxc backup may use exclude.list for tar backup. The exclude.list should be located in the folder `/var/lib/lxd/containers/mycontainer/exclude.list`
+lxd backup may use exclude.list for tar backup. The exclude.list should be located in the folder `/var/lib/lxd/containers/mycontainer/exclude.list`
 
 Example `exclude.list`:
 ```
@@ -201,16 +201,52 @@ rootfs/var/lib/mysql/*
 ```
 
 
-## Restore LXC from tar.gz backup
+## Restore LXD from tar.gz backup
 
 
 ```bash
-lxc image import ./path-to-backup.tar.gz --alias=mybackup
-lxc stop mycontainer
-lxc delete mycontainer
-lxc init mybackup mycontainer
-lxc config edit mycontainer < /var/lib/lxd/containers/mycontainer/config
-lxc start mycontainer
+$ lxc image import ./path-to-backup.tar.gz --alias=mybackup
+$ lxc stop mycontainer
+$ lxc delete mycontainer
+$ lxc init mybackup mycontainer
+$ lxc config edit mycontainer < /var/lib/lxd/containers/mycontainer/config
+$ lxc start mycontainer
+```
+
+
+## Make increment LXD Snapshot on ZFS Backend
+
+
+At first time you should run command
+```bash
+$ backup-lxd-master mycontainer
+```
+
+It will be create master backup with current date in UTC. Remember this name of the master backup.
+Create the bash script.
+
+```bash
+#!/bin/bash
+
+. /etc/backup-tools/config
+
+sync_sheme_set "amazon_s3"
+
+# Insert name of the master snapshot
+dump_lxd_increment mycontainer "snap-mycontainer-2016-09-20T01:00:00UTC-master"
+
+echo "Upload LXD to Amazon S3"
+sync_folder /backup/lxd /lxd
+push_folder_start
+```
+
+
+## Restore LXD container from the snapshot
+
+If you import container in other machine, you should create any container with any data with same name as snapshot. Then you should execute two commands:
+```bash
+$ import_lxd_master mycontainer "./snap-mycontainer-2016-09-20T01:00:00UTC-master.gz"
+$ import_lxd_increment mycontainer "./snap-mycontainer-2016-09-20T01:00:00UTC-master-increment-2016-09-20T02:00:00UTC.gz"
 ```
 
 
@@ -248,13 +284,20 @@ Instead {minute} and {hour} type real values.
 * push_folder_start - upload the folder, without deleting files in the recipient
 * dump_mysql {database_name} - dump MySQL database
 * dump_mongo {database_name} - dump MongoDB database
-* dump_lxc {container_name} - dump LXC container
-
+* dump_lxd {container_name} - dump LXD container
+* dump_lxd_master {container_name} - Make master snapshot of LXD container for ZFS backend
+* dump_lxd_increment {container_name} {master-snapshot} - Make increment snapshot of LXD container for ZFS backend
+* import_lxd_master {container_name} {filename.gz} - Make master snapshot of LXD container for ZFS backend
+* import_lxd_increment {container_name} {filename.gz} - Make increment snapshot of LXD container for ZFS backend
 
 
 ## Shell functions
 
-* $ backup-lxc {container_name} - Backup LXC container to backup folder
+* $ backup-lxd {container_name} - Backup LXD container to backup folder
+* $ backup-lxd-master {container_name} - Make master snapshot of LXD container for ZFS backend
+* $ backup-lxd-increment {container_name} {master-snapshot} - Make increment snapshot of LXD container for ZFS backend
+* $ import-lxd-master {container_name} {filename.gz} - Import master snapshot of LXD container for ZFS backend
+* $ import-lxd-increment {container_name} {filename.gz} - Import increment snapshot of LXD container for ZFS backend
 * $ backup-mysql {database_name} - Backup MySQL database to backup folder
 * $ backup-mongo {database_name} - Backup MongoDB database to backup folder
 
