@@ -284,28 +284,28 @@ Instead {minute} and {hour} type real values.
 ## Bash functions
 
 
-* sync_sheme_set {type} - set sync sheme. Allow options: amazon_s3, rsync
-* sync_folder {src} {dest} - initialize synchronization
-* sync_folder_start - start synchronization of the folder
-* push_folder_start - upload the folder, without deleting files in the recipient
-* dump_mysql {database_name} - dump MySQL database
-* dump_mongo {database_name} - dump MongoDB database
-* dump_lxd {container_name} - dump LXD container
-* dump_lxd_master {container_name} - Make master snapshot of LXD container for ZFS backend
-* dump_lxd_increment {container_name} {master-snapshot} - Make increment snapshot of LXD container for ZFS backend
-* import_lxd_master {container_name} {filename.gz} - Make master snapshot of LXD container for ZFS backend
-* import_lxd_increment {container_name} {filename.gz} - Make increment snapshot of LXD container for ZFS backend
+* sync_sheme_set {type} - set sync sheme. Allow options: amazon_s3, rsync.
+* sync_folder {src} {dest} - initialize synchronization.
+* sync_folder_start - start synchronization of the folder.
+* push_folder_start - upload the folder, without deleting files in the recipient.
+* dump_mysql {database_name} - dump MySQL database.
+* dump_mongo {database_name} - dump MongoDB database.
+* dump_lxd {container_name} - dump LXD container.
+* dump_lxd_master {container_name} - Make master snapshot of LXD container for ZFS backend.
+* dump_lxd_increment {container_name} {master-snapshot} - Make increment snapshot of LXD container for ZFS backend.
+* import_lxd_master {container_name} {filename.gz} - Make master snapshot of LXD container for ZFS backend.
+* import_lxd_increment {container_name} {filename.gz} - Make increment snapshot of LXD container for ZFS backend.
 
 
 ## Shell functions
 
-* $ backup-lxd {container_name} - Backup LXD container to backup folder
-* $ backup-lxd-master {container_name} - Make master snapshot of LXD container for ZFS backend
-* $ backup-lxd-increment {container_name} {master-snapshot} - Make increment snapshot of LXD container for ZFS backend
-* $ import-lxd-master {container_name} {filename.gz} - Import master snapshot of LXD container for ZFS backend
-* $ import-lxd-increment {container_name} {filename.gz} - Import increment snapshot of LXD container for ZFS backend
-* $ backup-mysql {database_name} - Backup MySQL database to backup folder
-* $ backup-mongo {database_name} - Backup MongoDB database to backup folder
+* $ backup-lxd {container_name} - Backup LXD container to backup folder with exclude list. This command may be used to create clear image of the container without users data.
+* $ backup-lxd-master {container_name} - Make master snapshot of LXD container for ZFS backend. The snapshot include users data, except the mount folder into container.
+* $ backup-lxd-increment {container_name} {master-snapshot} - Make increment snapshot of LXD container from master snapshot for ZFS backend.
+* $ import-lxd-master {container_name} {filename.gz} - Import master snapshot of LXD container for ZFS backend.
+* $ import-lxd-increment {container_name} {filename.gz} - Import increment snapshot of LXD container for ZFS backend.
+* $ backup-mysql {database_name} - Backup MySQL database to backup folder.
+* $ backup-mongo {database_name} - Backup MongoDB database to backup folder.
 
 
 
