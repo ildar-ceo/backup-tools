@@ -47,13 +47,13 @@ dump_mysql_what () {
 
 	if [ $WHAT == "table" ]; then
 		name="${name}.tables.sql"
-		mysqldump --qutoe-names --quick --add-drop-table --compact --create-options --no-data --routines --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $DATABASE > ./$name 2>>$BACKUP_LOG 2>&1
+		mysqldump --quote-names --quick --add-drop-table --compact --create-options --no-data --routines --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $DATABASE > ./$name 2>>$BACKUP_LOG 2>&1
 	elif [ $WHAT == "data" ]; then
 		name="${name}.data.sql"
-		mysqldump --qutoe-names --quick --no-create-info --insert-ignore -c --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $DATABASE > ./$name 2>>$BACKUP_LOG 2>&1
+		mysqldump --quote-names --quick --no-create-info --insert-ignore -c --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $DATABASE > ./$name 2>>$BACKUP_LOG 2>&1
 	else
 		name="${name}.sql"
-		mysqldump --qutoe-names --quick --add-drop-table --create-options --insert-ignore --routines -c --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $DATABASE > ./$name 2>>$BACKUP_LOG 2>&1
+		mysqldump --quote-names --quick --add-drop-table --create-options --insert-ignore --routines -c --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $DATABASE > ./$name 2>>$BACKUP_LOG 2>&1
 	fi
 
 	dump_mysql_enable_keys ./$name > /dev/null
