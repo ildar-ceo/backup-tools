@@ -13,9 +13,9 @@ If you want to run backups as root then you do so at your own risk!
 
 ## Downloads
 
-[download rpm](https://github.com/vistoyn/backup-tools/releases/download/1.2/backup-tools-1.2.0-2.noarch.rpm)
+[download rpm](https://github.com/vistoyn/backup-tools/releases/download/1.2/backup-tools-1.2.0-4.noarch.rpm)
 
-[download deb](https://github.com/vistoyn/backup-tools/releases/download/1.2/backup-tools_1.2.0-1_all.deb)
+[download deb](https://github.com/vistoyn/backup-tools/releases/download/1.2/backup-tools_1.2.0-3_all.deb)
 
 
 
