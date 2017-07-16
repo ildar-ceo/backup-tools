@@ -14,8 +14,8 @@ cd builds
 
 lintian ./${FILE}.deb
 #fakeroot alien --to-rpm --scripts ./${FILE}.deb > /dev/null
-fakeroot alien --to-tgz --scripts ./${FILE}.deb > /dev/null
-#mv backup-tools-${VERSION_FAKE}.noarch.rpm backup-tools-${VERSION}.noarch.rpm
+fakeroot alien --keep-version --to-tgz --scripts ./${FILE}.deb  > /dev/null
+#mv backup-tools-${VERSION_FAKE_TGZ}.tgz backup-tools-${VERSION}.tgz
 echo "Save as backup-tools"
 
 cd ..

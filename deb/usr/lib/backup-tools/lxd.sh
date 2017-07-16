@@ -64,7 +64,9 @@ dump_lxd () {
 	
 	CMD="$CMD -czvf $LXD_BACKUP/$LXD_SNAPSHOT.tar.gz * >> $LXD_BACKUP/$LXD_SNAPSHOT.log 2>&1"
 	
-	#echo $CMD 
+	if [ "$VERBOSE" == "1" ]; then
+		echo $CMD
+	fi
 	eval $CMD
 
 	pushd $LXD_BACKUP > /dev/null
@@ -169,7 +171,9 @@ import_lxd_master () {
 	echo -e "Import master snapshot ${c_Green}'$LXD_SNAPSHOT'${c_NC} to ${c_Yellow}'${LXD_NAME}'${c_NC} "
 	CMD="gunzip -c $LXD_SNAPSHOT_FILE_NAME | zfs receive  ${LXD_ZPOOL_NAME}/containers/${LXD_NAME}@${LXD_SNAPSHOT}"
 	
-	#echo $CMD
+	if [ "$VERBOSE" == "1" ]; then
+		echo $CMD
+	fi
 	eval $CMD
 	
 	echo "Set mount point ${LXD_NAME} to /var/lib/lxd/containers/${LXD_NAME}.zfs"
@@ -199,7 +203,9 @@ import_lxd_increment () {
 	echo -e "Import increment snapshot ${c_Green}'$LXD_SNAPSHOT'${c_NC} to ${c_Yellow}'${LXD_NAME}'${c_NC} "
 	CMD="gunzip -c $LXD_SNAPSHOT_FILE_NAME | zfs receive -F ${LXD_ZPOOL_NAME}/containers/${LXD_NAME}@${LXD_SNAPSHOT}"
 	
-	#echo $CMD
+	if [ "$VERBOSE" == "1" ]; then
+		echo $CMD
+	fi
 	eval $CMD
 	
 	return 1

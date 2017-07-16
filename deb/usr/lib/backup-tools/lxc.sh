@@ -45,7 +45,9 @@ dump_lxc () {
 	
 	CMD="$CMD -czvf $LXC_BACKUP/$LXC_SNAPSHOT.tar.gz * >> $LXC_BACKUP/$LXC_SNAPSHOT.log 2>&1"
 	
-	#echo $CMD 
+	if [ "$VERBOSE" == "1" ]; then
+		echo $CMD
+	fi
 	eval $CMD
 
 	pushd $LXC_BACKUP > /dev/null

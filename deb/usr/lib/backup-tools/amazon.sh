@@ -36,6 +36,10 @@ sync_folder_start_amazon_s3 () {
 		params="${params} --no-check-md5"
 	fi
 	
+	if [ "$VERBOSE" == "1" ]; then
+		params="${params} --verbose --progress"
+	fi
+	
 	get_backup_log_var
 	
 	if [ ! -z "$AMAZON_S3_ACCESS_KEY_ID" ] && [ ! -z "$AMAZON_S3_SECRET_ACCESS_KEY" ]; then
@@ -56,7 +60,10 @@ sync_folder_start_amazon_s3 () {
 	echo "Start sync folder $CURRENT_SRC_FOLDER to Amazon s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER}"
 	echo "[`date -R`] Start sync folder $CURRENT_SRC_FOLDER to s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER} " >> $BACKUP_LOG
 	
-	#echo $CMD
+	if [ "$VERBOSE" == "1" ]; then
+		echo $CMD
+	fi
+	
 	eval $CMD >> ${BACKUP_LOG} 2>&1
 	
 	echo "[`date -R`] End   sync folder $CURRENT_SRC_FOLDER to s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER} ">>${BACKUP_LOG}
@@ -82,6 +89,10 @@ push_folder_start_amazon_s3 () {
 		params="${params} --no-check-md5"
 	fi
 	
+	if [ "$VERBOSE" == "1" ]; then
+		params="${params} --verbose --progress"
+	fi
+	
 	get_backup_log_var
 	
 	if [ ! -z "$AMAZON_S3_ACCESS_KEY_ID" ] && [ ! -z "$AMAZON_S3_SECRET_ACCESS_KEY" ]; then
@@ -98,7 +109,10 @@ push_folder_start_amazon_s3 () {
 	echo "Start push folder $CURRENT_SRC_FOLDER to Amazon s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER}"
 	echo "[`date -R`] Start push folder $CURRENT_SRC_FOLDER to s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER} " >> $BACKUP_LOG
 	
-	#echo $CMD
+	if [ "$VERBOSE" == "1" ]; then
+		echo $CMD
+	fi
+	
 	eval $CMD >> ${BACKUP_LOG} 2>&1
 	
 	echo "[`date -R`] End   push folder $CURRENT_SRC_FOLDER to s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER} ">>${BACKUP_LOG} 
