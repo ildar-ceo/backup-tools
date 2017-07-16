@@ -17,6 +17,8 @@ sync_folder_exclude_amazon_s3 () {
 }
 
 sync_folder_start_amazon_s3 () {
+	params=""
+	
 	if [ -z "$CURRENT_SRC_FOLDER" ]; then
 		return 0
 	fi
@@ -29,19 +31,24 @@ sync_folder_start_amazon_s3 () {
 		return 0
 	fi
 	
+	
+	if [ "$AMAZON_NO_CHECK_MD5" == "1" ]; then
+		params="${params} --no-check-md5"
+	fi
+	
 	get_backup_log_var
 	
 	if [ ! -z "$AMAZON_S3_ACCESS_KEY_ID" ] && [ ! -z "$AMAZON_S3_SECRET_ACCESS_KEY" ]; then
 	
 		CMD="s3cmd --acl-private --no-guess-mime-type --delete-removed --delete-after --no-encrypt --continue-put  \
 			--access_key=${AMAZON_S3_ACCESS_KEY_ID} --secret_key=${AMAZON_S3_SECRET_ACCESS_KEY} \
-			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive --force \
+			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive --force ${params} \
 			sync ${CURRENT_SRC_FOLDER}/ s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER}/ "
 		
 	else
 	
 		CMD="s3cmd --acl-private --no-guess-mime-type --delete-removed --delete-after --no-encrypt --continue-put  \
-			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive --force \
+			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive --force ${params} \
 			sync ${CURRENT_SRC_FOLDER}/ s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER}/ "
 		
 	fi
@@ -57,6 +64,8 @@ sync_folder_start_amazon_s3 () {
 }
 
 push_folder_start_amazon_s3 () {
+	params=""
+	
 	if [ -z "$CURRENT_SRC_FOLDER" ]; then
 		return 0
 	fi
@@ -69,16 +78,20 @@ push_folder_start_amazon_s3 () {
 		return 0
 	fi
 	
+	if [ "$AMAZON_NO_CHECK_MD5" == "1" ]; then
+		params="${params} --no-check-md5"
+	fi
+	
 	get_backup_log_var
 	
 	if [ ! -z "$AMAZON_S3_ACCESS_KEY_ID" ] && [ ! -z "$AMAZON_S3_SECRET_ACCESS_KEY" ]; then
 		CMD="s3cmd --acl-private --guess-mime-type --no-encrypt --continue-put  \
 			--access_key=${AMAZON_S3_ACCESS_KEY_ID} --secret_key=${AMAZON_S3_SECRET_ACCESS_KEY} \
-			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive \
+			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive ${params} \
 			sync ${CURRENT_SRC_FOLDER}/ s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER}/ "
 	else
 		CMD="s3cmd --acl-private --guess-mime-type --no-encrypt --continue-put  \
-			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive \
+			--exclude-from=${EXCLUDE_LIST} --skip-existing --recursive ${params} \
 			sync ${CURRENT_SRC_FOLDER}/ s3://${AMAZON_S3_BUCKET_NAME}${CURRENT_DEST_FOLDER}/ "
 	fi
 	

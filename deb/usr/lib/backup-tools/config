@@ -96,6 +96,10 @@ if [ -z $AMAZON_S3_SECRET_ACCESS_KEY ]; then
 	AMAZON_S3_SECRET_ACCESS_KEY=""
 fi
 
+if [ -z $AMAZON_NO_CHECK_MD5 ]; then
+	AMAZON_NO_CHECK_MD5=""
+fi
+
 if [ -z $LXD_ZPOOL_NAME ]; then
 	LXD_ZPOOL_NAME="lxd"
 fi
