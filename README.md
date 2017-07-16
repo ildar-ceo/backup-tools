@@ -82,7 +82,7 @@ chown backup:backup /var/log/backup
 cd /src
 wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.3.0-3_all.deb
 apt-get install s3cmd zip unzip tar gzip python-dateutil python-magic python-six
-dpkg -i backup-tools_1.2.0-3_all.deb
+dpkg -i backup-tools_1.3.0-3_all.deb
 ```
 
 **For MySQL backups**
