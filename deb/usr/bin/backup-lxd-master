@@ -38,3 +38,5 @@ ask_yn_exit "Do you wish to make master snapshot of the LXD container ${c_Yellow
 
 
 dump_lxd_master $LXD_NAME
+
+echo "Ok."

@@ -38,3 +38,5 @@ ask_yn_exit "Do you wish export LXD container ${c_Yellow}'$LXD_NAME'${c_NC}"
 
 
 dump_lxd $LXD_NAME
+
+echo "Ok."

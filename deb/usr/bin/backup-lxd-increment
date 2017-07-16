@@ -61,3 +61,5 @@ ask_yn_exit "Do you wish to make increment snapshot of the LXD container ${c_Yel
 
 
 dump_lxd_increment $LXD_NAME $LXD_SNAPSHOT_MASTER
+
+echo "Ok."

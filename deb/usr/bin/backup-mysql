@@ -30,3 +30,5 @@ ask_yn_exit "Do you wish to backup mysql database ${c_Yellow}'$DB_NAME'${c_NC}"
 
 
 dump_mysql $DB_NAME
+
+echo "Ok."

@@ -15,6 +15,7 @@
 . /usr/lib/backup-tools/mysql.sh
 . /usr/lib/backup-tools/mongo.sh
 . /usr/lib/backup-tools/lxd.sh
+. /usr/lib/backup-tools/lxc.sh
 . /usr/lib/backup-tools/rsync.sh
 
 
@@ -48,6 +49,10 @@ fi
 
 if [ -z $BACKUP_DIR_LXD ]; then
 	BACKUP_DIR_LXD="$BACKUP_DIR/lxd"
+fi
+
+if [ -z $BACKUP_DIR_LXC ]; then
+	BACKUP_DIR_LXC="$BACKUP_DIR/lxc"
 fi
 
 if [ -z $EXCLUDE_LIST ]; then

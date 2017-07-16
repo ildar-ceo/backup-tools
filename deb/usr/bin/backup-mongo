@@ -30,3 +30,5 @@ ask_yn_exit "Do you wish to backup mongo database ${c_Yellow}'$DB_NAME'${c_NC}"
 
 
 dump_mongo $DB_NAME
+
+echo "Ok."
