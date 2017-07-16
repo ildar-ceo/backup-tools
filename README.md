@@ -13,9 +13,9 @@ If you want to run backups as root then you do so at your own risk!
 
 ## Downloads
 
-[download rpm](https://github.com/vistoyn/backup-tools/releases/download/1.2/backup-tools-1.2.0-4.noarch.rpm)
+[download tgz](https://github.com/vistoyn/backup-tools/releases/download/1.3/backup-tools-1.3.0.tgz)
 
-[download deb](https://github.com/vistoyn/backup-tools/releases/download/1.2/backup-tools_1.2.0-3_all.deb)
+[download deb](https://github.com/vistoyn/backup-tools/releases/download/1.3/backup-tools_1.3.0-3_all.deb)
 
 
 
@@ -43,10 +43,11 @@ chown backup:backup /backup
 
 ```bash
 cd /src
-wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools-1.2.0-4.noarch.rpm
+wget https://github.com/vistoyn/backup-tools/releases/download/1.3/backup-tools-1.3.0.tgz
 yum install s3cmd zip unzip tar gzip
-rpm -Uvh backup-tools-1.2.0-4.noarch.rpm
 ```
+Extract backup-tools-1.3.0.tgz to "/" folder
+
 
 **For MySQL backups**
 ```
@@ -79,7 +80,7 @@ chown backup:backup /var/log/backup
 
 ```bash
 cd /src
-wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.2.0-3_all.deb
+wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.3.0-3_all.deb
 apt-get install s3cmd zip unzip tar gzip python-dateutil python-magic python-six
 dpkg -i backup-tools_1.2.0-3_all.deb
 ```
