@@ -80,7 +80,7 @@ chown backup:backup /var/log/backup
 
 ```bash
 cd /src
-wget https://github.com/vistoyn/backup-tools/releases/download/1.1/backup-tools_1.3.0-3_all.deb
+wget https://github.com/vistoyn/backup-tools/releases/download/1.3/backup-tools_1.3.0-3_all.deb
 apt-get install s3cmd zip unzip tar gzip python-dateutil python-magic python-six
 dpkg -i backup-tools_1.3.0-3_all.deb
 ```
